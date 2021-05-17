@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd party apps
+    'taggit',
+    
+    # Custom apps
+    'photoapp',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +119,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Django taggit
+
+TAGGIT_CASE_INSENSITIVE = True
+
+# Django Authentication
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'photo:list'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
