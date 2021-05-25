@@ -11,7 +11,7 @@ from .views import (
     PhotoDeleteView
 )
 
-appname = 'photo'
+app_name = 'photo'
 
 urlpatterns = [
     path('', PhotoListView.as_view(), name='list'),

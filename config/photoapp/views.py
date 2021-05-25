@@ -57,6 +57,8 @@ class PhotoDetailView(DetailView):
 
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
+
+    template_name = 'photoapp/create.html'
     
     model = Photo
     
@@ -86,6 +88,8 @@ class UserIsSubmitter(UserPassesTestMixin):
             raise HttpResponseNotAllowed('Sorry you are not allowed here')
 
 class PhotoUpdateView(UserIsSubmitter, UpdateView):
+    
+    template_name = 'photoapp/update.html'
 
     model = Photo
 
@@ -95,6 +99,8 @@ class PhotoUpdateView(UserIsSubmitter, UpdateView):
 
 class PhotoDeleteView(UserIsSubmitter, DeleteView):
     
+    template_name = 'photoapp/delete.html'
+
     model = Photo
 
     success_url = reverse_lazy('photo:list')
