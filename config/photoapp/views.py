@@ -2,7 +2,7 @@
 
 from django.shortcuts import get_object_or_404
 
-from django.http import HttpResponseNotAllowed
+from django.core.exceptions import PermissionDenied
 
 from django.urls.resolvers import get_resolver
 
@@ -39,7 +39,7 @@ class PhotoTagListView(ListView):
         return self.kwargs.get('tag')
 
     def get_queryset(self):
-        return Photo.objects.filter(tag__slug_in=[self.get_tag()])
+        return Photo.objects.filter(tags__slug=self.get_tag())
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,27 +51,23 @@ class PhotoDetailView(DetailView):
 
     model = Photo
 
-    context_object_name = 'photo'
-
     template_name = 'photoapp/detail.html'
+
+    context_object_name = 'photo'
 
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
 
     template_name = 'photoapp/create.html'
     
-    model = Photo
-    
-    form =  CreatePhotoForm
+    form_class =  CreatePhotoForm
 
     success_url = reverse_lazy('photo:list')
 
     def form_valid(self, form):
 
-        form.user = self.request.user
-        form.save()
-        # Without this next line the tags won't be saved.
-        form.save_m2m()
+        form.instance.submitter = self.request.user
+        
         return super().form_valid(form)
 
 class UserIsSubmitter(UserPassesTestMixin):
@@ -82,10 +78,10 @@ class UserIsSubmitter(UserPassesTestMixin):
     
     def test_func(self):
         
-        if self.request.user.is_authenticated():
-            return self.request.user is self.get_photo().submitter
+        if self.request.user.is_authenticated:
+            return self.request.user == self.get_photo().submitter
         else:
-            raise HttpResponseNotAllowed('Sorry you are not allowed here')
+            raise PermissionDenied('Sorry you are not allowed here')
 
 class PhotoUpdateView(UserIsSubmitter, UpdateView):
     
@@ -93,7 +89,7 @@ class PhotoUpdateView(UserIsSubmitter, UpdateView):
 
     model = Photo
 
-    form = UpdatePhotoForm
+    form_class = UpdatePhotoForm
     
     success_url = reverse_lazy('photo:list')
 
