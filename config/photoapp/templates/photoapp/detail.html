@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+
+{% block body %}
+<div class="mx-auto">
+  <h1 class="text-center">{{ photo.title }}</h1>
+  <p class="text-center fw-light">Uploaded on: {{photo.created}} <br> By {{photo.submitter.username}}</p>
+  {% if user == photo.submitter %}
+    <p class="text-center">
+      <span><a href="{% url 'photo:update' photo.id %}" class="text-primary px-2">Update</a></span>
+      <span><a href="{% url 'photo:delete' photo.id %}" class="text-danger px-2">Delete</a></span>
+    </p>
+  {% endif %}
+</div>
+<div class="row pb-5">
+  <div class="col-md-8">
+    <img src="{{photo.image.url}}" alt="" width="100%" />
+  </div>
+  <div class="col-md-4">
+    <h4>More about this photo:</h4>
+    <ul class="list-group list-group-horizontal-lg list-unstyled py-4">
+      {% for tag in photo.tags.all %}
+        <li><a href="{% url 'photo:tag' tag.slug %}" class="btn btn-sm list-group-item list-group-item-primary">{{tag.name}}</a></li>
+      {% endfor %}
+    </ul>
+    <p>{{ photo.description }}</p>
+  </div>
+</div>
+
+{% endblock body %}
