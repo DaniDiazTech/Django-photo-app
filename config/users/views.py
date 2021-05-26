@@ -11,11 +11,11 @@ class SignUpView(CreateView):
 
     template_name = 'users/signup.html'
     
-    form = UserCreationForm
+    form_class = UserCreationForm
 
     success_url = reverse_lazy('photo:list')
-    
     def form_valid(self, form):
+        to_return = super().form_valid(form)
 
         user = authenticate(
             username=form.cleaned_data["username"],
@@ -24,8 +24,8 @@ class SignUpView(CreateView):
 
         login(self.request, user)
 
-        return super().form_valid(form)
-
+        return to_return
+    
 class CustomLoginView(views.LoginView):
     
     template_name = 'users/login.html'
