@@ -1,0 +1,16 @@
+asgiref==3.3.4
+astroid==2.5.6
+autopep8==1.5.7
+Django==3.2.3
+django-crispy-forms==1.11.2
+django-taggit==1.4.0
+isort==5.8.0
+lazy-object-proxy==1.6.0
+mccabe==0.6.1
+Pillow==8.2.0
+pycodestyle==2.7.0
+pylint==2.8.2
+pytz==2021.1
+sqlparse==0.4.1
+toml==0.10.2
+wrapt==1.12.1
