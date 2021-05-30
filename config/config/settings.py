@@ -130,7 +130,7 @@ USE_TZ = True
 TAGGIT_CASE_INSENSITIVE = True
 
 # Django Authentication
-LOGIN_URL = 'users:login'
+LOGIN_URL = 'user:login'
 LOGIN_REDIRECT_URL = 'photo:list'
 
 # Static files (CSS, JavaScript, Images)
