@@ -1,7 +1,8 @@
-from django.contrib import auth
 from django.views.generic import CreateView
 
-from django.contrib.auth import views, authenticate, login
+from django.contrib.auth import authenticate, login
+
+from django.contrib.auth.views import LoginView
 
 from django.contrib.auth.forms import UserCreationForm
 
@@ -14,6 +15,7 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
 
     success_url = reverse_lazy('photo:list')
+
     def form_valid(self, form):
         to_return = super().form_valid(form)
 
@@ -26,6 +28,6 @@ class SignUpView(CreateView):
 
         return to_return
     
-class CustomLoginView(views.LoginView):
+class CustomLoginView(LoginView):
     
     template_name = 'users/login.html'

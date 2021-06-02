@@ -17,5 +17,5 @@ class UpdatePhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
 
-        fields = ('title', 'description')
+        fields = ('title', 'description', 'tags')
         

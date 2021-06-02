@@ -25,21 +25,16 @@ class PhotoListView(ListView):
     context_object_name = 'photos'
 
 
-class PhotoTagListView(ListView):
-    
-    model = Photo
+class PhotoTagListView(PhotoListView):
     
     template_name = 'photoapp/taglist.html'
     
-    context_object_name = 'photos'
-
-
     # Custom function
     def get_tag(self):
         return self.kwargs.get('tag')
 
     def get_queryset(self):
-        return Photo.objects.filter(tags__slug=self.get_tag())
+        return self.model.objects.filter(tags__slug=self.get_tag())
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
