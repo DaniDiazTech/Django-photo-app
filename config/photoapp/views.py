@@ -4,8 +4,6 @@ from django.shortcuts import get_object_or_404
 
 from django.core.exceptions import PermissionDenied
 
-from django.urls.resolvers import get_resolver
-
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -13,8 +11,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
 from .models import Photo
-
-from .forms import CreatePhotoForm, UpdatePhotoForm
 
 class PhotoListView(ListView):
     
@@ -53,10 +49,12 @@ class PhotoDetailView(DetailView):
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
 
+    model = Photo
+    
+    fields = ['title', 'description', 'image', 'tags']
+
     template_name = 'photoapp/create.html'
     
-    form_class =  CreatePhotoForm
-
     success_url = reverse_lazy('photo:list')
 
     def form_valid(self, form):
@@ -84,7 +82,7 @@ class PhotoUpdateView(UserIsSubmitter, UpdateView):
 
     model = Photo
 
-    form_class = UpdatePhotoForm
+    fields = ['title', 'description', 'tags']
     
     success_url = reverse_lazy('photo:list')
 
